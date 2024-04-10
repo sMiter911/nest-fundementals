@@ -11,6 +11,10 @@ import { DataSource } from 'typeorm';
 import { Song } from './songs/entities/song';
 import { Artist } from './artists/entities/artist';
 import { User } from './users/entities/users';
+import { PlaylistsModule } from './playlists/playlists.module';
+import { Playlist } from './playlists/entities/playlists.entities';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 const devConfig = {
   port: 3000,
@@ -31,9 +35,12 @@ const proConfig = {
       username: 'postgres',
       password: 'Solidus_snake1987',
       database: 'n-test',
-      entities: [Song, Artist, User],
+      entities: [Song, Artist, User, Playlist],
       synchronize: true,
     }),
+    PlaylistsModule,
+    UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [

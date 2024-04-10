@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Song } from 'src/songs/entities/song';
 import { User } from 'src/users/entities/users';
 import {
@@ -14,8 +15,10 @@ export class Artist {
 
   @OneToOne(() => User)
   @JoinColumn()
+  @ApiProperty({ example: 'string', description: 'User Name' })
   user: User;
 
   @ManyToMany(() => Song, (song) => song.artists)
+  @ApiProperty({ example: 'string', description: 'Songs' })
   songs: Song[];
 }

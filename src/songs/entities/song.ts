@@ -1,10 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Artist } from 'src/artists/entities/artist';
+import { Playlist } from 'src/playlists/entities/playlists.entities';
 import {
   Column,
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -47,4 +49,10 @@ export class Song {
     description: 'Lyrics of the song',
   })
   lyrics: string;
+
+  /**
+   * Many songs can belong to the playlist for each unique user
+   */
+  @ManyToOne(() => Playlist, (playList) => playList.songs)
+  playList: Playlist;
 }
