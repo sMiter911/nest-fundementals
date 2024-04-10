@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Artist } from 'src/artists/entities/artist';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('songs')
 export class Song {
@@ -8,7 +15,7 @@ export class Song {
 
   /**
    * Title of the Song
-   * @example Kitty
+   * @example Song
    */
   @Column()
   @ApiProperty({
@@ -17,9 +24,14 @@ export class Song {
   })
   title: string;
 
-  @Column('varchar', { array: true })
-  @ApiProperty({ example: ['string'], description: 'Name of the artist' })
-  artists: string[];
+  // @Column('varchar', { array: true })
+  // @ApiProperty({ example: ['string'], description: 'Name of the artist' })
+  // artists: string[];
+
+  @ManyToMany(() => Artist, (artist) => artist.songs, { cascade: true })
+  @JoinTable({ name: 'songs_artists' })
+  @ApiProperty({ example: ['number'], description: 'Name of the artists' })
+  artists: Artist[];
 
   @Column({ type: 'date' })
   @ApiProperty({ example: 'string', description: 'Release date' })

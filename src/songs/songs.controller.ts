@@ -10,6 +10,8 @@ import {
   ParseIntPipe,
   Body,
   Scope,
+  DefaultValuePipe,
+  Query,
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDto } from './dto/create-song.dto';
@@ -17,6 +19,7 @@ import { Song } from './entities/song';
 import { UpdateSongDto } from './dto/update-song.dto';
 import { UpdateResult } from 'typeorm';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Pagination } from 'nestjs-typeorm-paginate';
 
 @ApiTags('songs')
 @Controller({
@@ -40,8 +43,15 @@ export class SongsController {
     description: 'The found records',
     type: Song,
   })
-  findAll(): Promise<Song[]> {
-    return this._songService.findAll();
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe)
+    page: number = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe)
+    limit: number = 10,
+  ): Promise<Pagination<Song>> {
+    // fetch songs from the DB
+    limit = limit > 100 ? 100 : limit;
+    return this._songService.paginate({ page, limit });
   }
 
   @Get(':id')
