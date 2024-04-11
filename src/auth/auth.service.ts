@@ -1,11 +1,13 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcryptjs';
-import { User } from 'src/users/entities/users';
+import * as speakeasy from 'speakeasy';
 import { LoginDTO } from './dto/create-login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ArtistsService } from 'src/artists/artists.service';
 import { PayloadType } from './types/payload.types';
+import { Enable2FAType } from './types/auth.types';
+import { UpdateResult } from 'typeorm';
 
 @Injectable()
 export class AuthService {
@@ -36,5 +38,21 @@ export class AuthService {
     } else {
       throw new UnauthorizedException('Password does not match');
     }
+  }
+
+  async enable2FA(userId: number): Promise<Enable2FAType> {
+    const user = await this.userService.findById(userId);
+    if (user.enable2FA) {
+      return { secret: user.twoFASecret };
+    }
+    const secret = speakeasy.generateSecret();
+    console.log(secret);
+    user.twoFASecret = secret.base32;
+    await this.userService.updateSecretKey(user.id, user.twoFASecret);
+    return { secret: user.twoFASecret };
+  }
+
+  async disable2FA(userId: number): Promise<UpdateResult> {
+    return this.userService.disable2FA(userId);
   }
 }

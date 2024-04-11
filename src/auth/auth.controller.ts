@@ -1,10 +1,13 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { CreateUserDTO } from 'src/users/dto/create-user.dto';
 import { User } from 'src/users/entities/users';
 import { UsersService } from 'src/users/users.service';
 import { LoginDTO } from './dto/create-login.dto';
 import { AuthService } from './auth.service';
 import { ApiTags, ApiOperation, ApiBody } from '@nestjs/swagger';
+import { JwtAuthGuard } from './jwt/jwt.guard';
+import { Enable2FAType } from './types/auth.types';
+import { UpdateResult } from 'typeorm';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -32,5 +35,28 @@ export class AuthController {
     loginDTO: LoginDTO,
   ) {
     return this.authService.login(loginDTO);
+  }
+
+  @Post('enable-2fa')
+  @ApiOperation({ summary: 'Enable 2FA' })
+  @ApiBody({ description: 'Endpoint to enable 2FA', type: 'string' })
+  @UseGuards(JwtAuthGuard)
+  async enable2FA(
+    @Req()
+    req,
+  ): Promise<Enable2FAType> {
+    console.log(req.user);
+    return this.authService.enable2FA(req.user.id);
+  }
+
+  @Get('disable-2fa')
+  @ApiOperation({ summary: 'Disable 2FA' })
+  @ApiBody({ description: 'Endpoint to disable 2FA', type: 'string' })
+  @UseGuards(JwtAuthGuard)
+  async disable2FA(
+    @Req()
+    req,
+  ): Promise<UpdateResult> {
+    return this.authService.disable2FA(req.user.id);
   }
 }

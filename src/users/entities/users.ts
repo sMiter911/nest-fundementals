@@ -30,4 +30,14 @@ export class User {
   @OneToMany(() => Playlist, (playList) => playList.user)
   @ApiProperty({ example: 'Playlist', description: 'PlayList' })
   playLists: Playlist[];
+
+  @Column({ nullable: true, type: 'text' })
+  @ApiProperty({
+    example: 'string',
+    description: 'Two Factor Authentication Secret',
+  })
+  twoFASecret: string;
+
+  @Column({ nullable: true, type: 'boolean' })
+  enable2FA: boolean;
 }
