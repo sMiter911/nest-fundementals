@@ -19,9 +19,9 @@ export class SongsService {
 
   constructor(
     @InjectRepository(Song)
-    private readonly songRepository: Repository<Song>,
+    private songRepository: Repository<Song>,
     @InjectRepository(Artist)
-    private readonly artistRepository: Repository<Artist>,
+    private artistRepository: Repository<Artist>,
   ) {}
 
   async create(_songDTO: CreateSongDto): Promise<Song> {

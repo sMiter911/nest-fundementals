@@ -12,6 +12,8 @@ import {
   Scope,
   DefaultValuePipe,
   Query,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDto } from './dto/create-song.dto';
@@ -20,6 +22,7 @@ import { UpdateSongDto } from './dto/update-song.dto';
 import { UpdateResult } from 'typeorm';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Pagination } from 'nestjs-typeorm-paginate';
+import { JwtArtistAuthGuard } from 'src/auth/jwt/jwt-artist.guard';
 
 @ApiTags('songs')
 @Controller({
@@ -30,9 +33,11 @@ export class SongsController {
   constructor(private _songService: SongsService) {}
 
   @Post()
+  @UseGuards(JwtArtistAuthGuard)
   @ApiOperation({ summary: 'Create a song' })
   @ApiBody({ description: 'The song to be created', type: Song })
-  create(@Body() _createSongDTO: CreateSongDto): Promise<Song> {
+  create(@Body() _createSongDTO: CreateSongDto, @Req() req): Promise<Song> {
+    console.log(req.user);
     return this._songService.create(_createSongDTO);
   }
 
