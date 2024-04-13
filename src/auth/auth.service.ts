@@ -8,6 +8,7 @@ import { ArtistsService } from 'src/artists/artists.service';
 import { PayloadType } from './types/payload.types';
 import { Enable2FAType } from './types/auth.types';
 import { UpdateResult } from 'typeorm';
+import { User } from 'src/users/entities/users';
 
 @Injectable()
 export class AuthService {
@@ -92,5 +93,9 @@ export class AuthService {
     } catch (err) {
       throw new UnauthorizedException('Error veryfying token');
     }
+  }
+
+  async validateUserByApiKey(apiKey: string): Promise<User> {
+    return this.userService.findByApiKey(apiKey);
   }
 }

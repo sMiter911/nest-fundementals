@@ -40,4 +40,8 @@ export class User {
 
   @Column({ nullable: true, type: 'boolean' })
   enable2FA: boolean;
+
+  @Column()
+  @ApiProperty({ example: 'string', description: 'API Key' })
+  apiKey: string;
 }
