@@ -8,6 +8,7 @@ import { ApiTags, ApiOperation, ApiBody } from '@nestjs/swagger';
 import { JwtAuthGuard } from './jwt/jwt.guard';
 import { Enable2FAType } from './types/auth.types';
 import { UpdateResult } from 'typeorm';
+import { ValidateTokenDTO } from './dto/validate-token.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -58,5 +59,19 @@ export class AuthController {
     req,
   ): Promise<UpdateResult> {
     return this.authService.disable2FA(req.user.id);
+  }
+
+  @Post('validate-2fa')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Validate 2FA' })
+  validate2FA(
+    @Req()
+    req,
+    @Body() ValidateTokenDTO: ValidateTokenDTO,
+  ): Promise<{ verified: boolean }> {
+    return this.authService.validate2FAToken(
+      req.user.userId,
+      ValidateTokenDTO.token,
+    );
   }
 }
