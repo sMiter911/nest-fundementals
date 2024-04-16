@@ -17,7 +17,7 @@ import {
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDto } from './dto/create-song.dto';
-import { Song } from './entities/song';
+import { Song } from './entities/song.entity';
 import { UpdateSongDto } from './dto/update-song.dto';
 import { UpdateResult } from 'typeorm';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';

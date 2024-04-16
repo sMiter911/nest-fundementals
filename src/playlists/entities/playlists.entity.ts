@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Song } from 'src/songs/entities/song';
-import { User } from 'src/users/entities/users';
+import { Song } from 'src/songs/entities/song.entity';
+import { User } from 'src/users/entities/users.entity';
 import {
   Column,
   Entity,

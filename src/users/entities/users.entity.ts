@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { Playlist } from 'src/playlists/entities/playlists.entities';
+import { Playlist } from 'src/playlists/entities/playlists.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 @Entity('users')
 export class User {
@@ -12,7 +12,7 @@ export class User {
   firstName: string;
 
   @Column()
-  @ApiProperty({ example: 'string', description: 'Lase Name' })
+  @ApiProperty({ example: 'string', description: 'Last Name' })
   lastName: string;
 
   @Column({ unique: true })
@@ -44,4 +44,8 @@ export class User {
   @Column()
   @ApiProperty({ example: 'string', description: 'API Key' })
   apiKey: string;
+
+  @Column()
+  @ApiProperty({ example: 'string', description: 'User Phone Number' })
+  phone: string;
 }

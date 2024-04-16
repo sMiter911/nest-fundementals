@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { CreateUserDTO } from 'src/users/dto/create-user.dto';
-import { User } from 'src/users/entities/users';
+import { User } from 'src/users/entities/users.entity';
 import { UsersService } from 'src/users/users.service';
 import { LoginDTO } from './dto/create-login.dto';
 import { AuthService } from './auth.service';
-import { ApiTags, ApiOperation, ApiBody } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBody, ApiResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from './jwt/jwt.guard';
 import { Enable2FAType } from './types/auth.types';
 import { UpdateResult } from 'typeorm';
@@ -20,6 +20,10 @@ export class AuthController {
 
   @Post('signup')
   @ApiOperation({ summary: 'Signup User' })
+  @ApiResponse({
+    status: 201,
+    description: 'It will return the user response',
+  })
   @ApiBody({ description: 'Endpoint to signup user', type: CreateUserDTO })
   signup(
     @Body()
@@ -30,6 +34,10 @@ export class AuthController {
 
   @Post('login')
   @ApiOperation({ summary: 'Login User' })
+  @ApiResponse({
+    status: 200,
+    description: 'It will give you the access_token in the response',
+  })
   @ApiBody({ description: 'Endpoint to login user', type: LoginDTO })
   login(
     @Body()
@@ -40,7 +48,6 @@ export class AuthController {
 
   @Post('enable-2fa')
   @ApiOperation({ summary: 'Enable 2FA' })
-  @ApiBody({ description: 'Endpoint to enable 2FA', type: 'string' })
   @UseGuards(JwtAuthGuard)
   async enable2FA(
     @Req()
@@ -52,7 +59,6 @@ export class AuthController {
 
   @Get('disable-2fa')
   @ApiOperation({ summary: 'Disable 2FA' })
-  @ApiBody({ description: 'Endpoint to disable 2FA', type: 'string' })
   @UseGuards(JwtAuthGuard)
   async disable2FA(
     @Req()
@@ -73,5 +79,11 @@ export class AuthController {
       req.user.userId,
       ValidateTokenDTO.token,
     );
+  }
+
+  // Testing purpose
+  @Get('test')
+  async testEnv() {
+    return this.authService.getEnvVariable();
   }
 }

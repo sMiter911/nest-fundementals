@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { PlaylistsService } from './playlists.service';
 import { CreatePlayListDto } from './dto/create-playlist.dto';
-import { Playlist } from './entities/playlists.entities';
+import { Playlist } from './entities/playlists.entity';
 import { ApiOperation, ApiBody, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('playlist')

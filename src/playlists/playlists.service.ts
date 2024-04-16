@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Playlist } from './entities/playlists.entities';
-import { Song } from 'src/songs/entities/song';
-import { User } from 'src/users/entities/users';
+import { Playlist } from './entities/playlists.entity';
+import { Song } from 'src/songs/entities/song.entity';
+import { User } from 'src/users/entities/users.entity';
 import { Repository } from 'typeorm';
 import { CreatePlayListDto } from './dto/create-playlist.dto';
 

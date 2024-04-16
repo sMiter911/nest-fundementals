@@ -8,7 +8,8 @@ import { ArtistsService } from 'src/artists/artists.service';
 import { PayloadType } from './types/payload.types';
 import { Enable2FAType } from './types/auth.types';
 import { UpdateResult } from 'typeorm';
-import { User } from 'src/users/entities/users';
+import { User } from 'src/users/entities/users.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +17,7 @@ export class AuthService {
     private userService: UsersService,
     private jwtService: JwtService,
     private artistsService: ArtistsService,
+    private configService: ConfigService,
   ) {}
 
   async login(
@@ -97,5 +99,11 @@ export class AuthService {
 
   async validateUserByApiKey(apiKey: string): Promise<User> {
     return this.userService.findByApiKey(apiKey);
+  }
+
+  getEnvVariable() {
+    return {
+      port: this.configService.get<number>('port'),
+    };
   }
 }
