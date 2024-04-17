@@ -47,6 +47,7 @@ export class AuthController {
   }
 
   @Post('enable-2fa')
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Enable 2FA' })
   @UseGuards(JwtAuthGuard)
   async enable2FA(
@@ -58,6 +59,7 @@ export class AuthController {
   }
 
   @Get('disable-2fa')
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Disable 2FA' })
   @UseGuards(JwtAuthGuard)
   async disable2FA(
@@ -68,6 +70,7 @@ export class AuthController {
   }
 
   @Post('validate-2fa')
+  @ApiBearerAuth('JWT-auth')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Validate 2FA' })
   validate2FA(

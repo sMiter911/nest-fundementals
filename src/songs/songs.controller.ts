@@ -20,7 +20,7 @@ import { CreateSongDto } from './dto/create-song.dto';
 import { Song } from './entities/song.entity';
 import { UpdateSongDto } from './dto/update-song.dto';
 import { UpdateResult } from 'typeorm';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { JwtArtistAuthGuard } from 'src/auth/jwt/jwt-artist.guard';
 
@@ -33,6 +33,7 @@ export class SongsController {
   constructor(private _songService: SongsService) {}
 
   @Post()
+  @ApiBearerAuth('JWT-auth')
   @UseGuards(JwtArtistAuthGuard)
   @ApiOperation({ summary: 'Create a song' })
   @ApiBody({ description: 'The song to be created', type: Song })
