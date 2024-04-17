@@ -4,7 +4,7 @@ import { User } from 'src/users/entities/users.entity';
 import { UsersService } from 'src/users/users.service';
 import { LoginDTO } from './dto/create-login.dto';
 import { AuthService } from './auth.service';
-import { ApiTags, ApiOperation, ApiBody, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBody, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from './jwt/jwt.guard';
 import { Enable2FAType } from './types/auth.types';
 import { UpdateResult } from 'typeorm';
