@@ -18,6 +18,7 @@ export class UsersService {
     user.firstName = userDTO.firstName;
     user.lastName = userDTO.lastName;
     user.email = userDTO.email;
+    user.phone = userDTO.phone;
     user.apiKey = uuid4();
 
     const salt = await bcrypt.genSalt();
